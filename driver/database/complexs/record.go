@@ -10,7 +10,13 @@ import (
 type Complex struct {
 	Id        uint   `gorm:"primaryKey"`
 	Name      string `gorm:"unique"`
-	Address   string
+	Street     string
+	City       string
+	State      string
+	Country    string
+	PostalCode string
+	Latitude   float64
+	Longtitude float64
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`
@@ -20,7 +26,13 @@ func (complex *Complex) ToDomain() complexs.Domain {
 	return complexs.Domain{
 		Id: complex.Id,
 		Name: complex.Name,
-		Address: complex.Address,
+		Street: complex.Street,
+		City: complex.City,
+		State: complex.State,
+		Country: complex.Country,
+		PostalCode: complex.PostalCode,
+		Latitude: complex.Latitude,
+		Longtitude: complex.Longtitude,
 		CreatedAt: complex.CreatedAt,
 		UpdatedAt: complex.UpdatedAt,
 	}
@@ -30,7 +42,13 @@ func FromDomain (domain complexs.Domain) Complex{
 	return Complex{
 		Id: domain.Id,
 		Name: domain.Name,
-		Address: domain.Address,
+		Street: domain.Street,
+		City: domain.City,
+		State: domain.State,
+		Country: domain.Country,
+		PostalCode: domain.PostalCode,
+		Latitude: domain.Latitude,
+		Longtitude: domain.Longtitude,
 		CreatedAt: domain.CreatedAt,
 		UpdatedAt: domain.UpdatedAt,
 	}

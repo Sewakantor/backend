@@ -22,9 +22,27 @@ func (usecase *ComplexUseCase) Add (ctx context.Context, domain Domain) (Domain,
 	if domain.Name == "" {
 		return Domain{}, errors.New("Silahkan isi nama complex")
 	}
-	if domain.Address == "" {
-		return Domain{}, errors.New("Silahkan isi alamat lengkap complex")
+	if domain.Street == "" {
+		return Domain{}, errors.New("Silahkan isi street complex")
 	}
+	if domain.City == "" {
+		return Domain{}, errors.New("Silahkan isi city complex")
+	}
+	if domain.State == "" {
+		return Domain{}, errors.New("Silahkan isi state complex")
+	}
+	if domain.Country == "" {
+		return Domain{}, errors.New("Silahkan isi country complex")
+	}
+	if domain.PostalCode == "" {
+		return Domain{}, errors.New("Silahkan isi postalcode complex")
+	}
+	if domain.Latitude == 0 {
+		return Domain{}, errors.New("Silahkan isi latitude complex")
+	}
+	// if domain.Longtitude == 0 {
+	// 	return Domain{}, errors.New("Silahkan isi longtitude complex")
+	// }
 	complex, err := usecase.repo.Add(ctx, domain)
 	if err != nil {
 		return Domain{}, err

@@ -10,7 +10,13 @@ import (
 type Domain struct {
 	Id        uint `gorm:"primaryKey"`
 	Name      string
-	Address   string
+	Street     string
+	City       string
+	State      string
+	Country    string
+	PostalCode string
+	Latitude   float64
+	Longtitude float64
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`
