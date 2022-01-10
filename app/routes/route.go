@@ -5,6 +5,7 @@ import (
 	"capstone/controllers/complexs"
 	"capstone/controllers/facilities"
 	"capstone/controllers/roles"
+	"capstone/controllers/units"
 	"capstone/controllers/users"
 
 	"github.com/labstack/echo/v4"
@@ -12,12 +13,13 @@ import (
 )
 
 type RouteControllerList struct {
-	JWTMiddleware middleware.JWTConfig
-	UserController users.UserController
-	RoleController roles.RoleController
-	ComplexController complexs.ComplexController
-	FacilityController facilities.FacilityController
-	BuildingController buildings.BuildingController
+	JWTMiddleware 		middleware.JWTConfig
+	UserController 		users.UserController
+	RoleController 		roles.RoleController
+	ComplexController 	complexs.ComplexController
+	FacilityController 	facilities.FacilityController
+	BuildingController 	buildings.BuildingController
+	UnitController 		units.UnitController
 }
 
 func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
@@ -48,5 +50,11 @@ func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
 	e.GET("building/complex/:complexid", ctrl.BuildingController.GetByComplexID)
 	e.PUT("building/:id", ctrl.BuildingController.Update)
 	e.DELETE("building/:id", ctrl.BuildingController.Delete)
+
+	e.POST("unit", ctrl.UnitController.Add)
+	e.GET("units", ctrl.UnitController.GetAll)
+	e.GET("unit/:id", ctrl.UnitController.GetByID)
+	e.PUT("unit/:id", ctrl.UnitController.Update)
+	e.DELETE("unit/:id", ctrl.UnitController.Delete)
 
 }

@@ -23,6 +23,10 @@ import (
 	buildingController "capstone/controllers/buildings"
 	buildingRepo "capstone/driver/database/buildings"
 
+	unitUsecase "capstone/business/units"
+	unitController "capstone/controllers/units"
+	unitRepo "capstone/driver/database/units"
+
 	"capstone/driver/mysql"
 	"log"
 	"time"
@@ -49,6 +53,7 @@ func DBMigrate(DB *gorm.DB) {
 	DB.AutoMigrate(&complexRepo.Complex{})
 	DB.AutoMigrate(&facilityRepo.Facility{})
 	DB.AutoMigrate(&buildingRepo.Building{})
+	DB.AutoMigrate(&unitRepo.Unit{})
 }
 
 func main() {
@@ -90,6 +95,10 @@ func main() {
 	buidingUseCaseInterface := buildingUsecase.NewBuildingUseCase(buildingRepoInterface, timeoutcontext)
 	buildingControllerInterface := buildingController.NewBuildingController(buidingUseCaseInterface)
 
+	unitRepoInterface := unitRepo.NewUnitRepository(DB)
+	unitUseCaseInterface := unitUsecase.NewUnitUseCase(unitRepoInterface, timeoutcontext)
+	unitControllerInterface := unitController.NewUnitController(unitUseCaseInterface)
+
 
 	routesInit := routes.RouteControllerList{
 		UserController: *userControllerInterface,
@@ -97,6 +106,7 @@ func main() {
 		ComplexController: *complexControllerInterface,
 		FacilityController: *facilityContollerInterface,
 		BuildingController: *buildingControllerInterface,
+		UnitController: *unitControllerInterface,
 
 	}
 	routesInit.RouteRegister(e)
