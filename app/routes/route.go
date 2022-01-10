@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"capstone/controllers/addresses"
+	"capstone/controllers/buildings"
 	"capstone/controllers/complexs"
 	"capstone/controllers/facilities"
 	"capstone/controllers/roles"
@@ -16,8 +16,8 @@ type RouteControllerList struct {
 	UserController users.UserController
 	RoleController roles.RoleController
 	ComplexController complexs.ComplexController
-	AddressController addresses.AddressController
 	FacilityController facilities.FacilityController
+	BuildingController buildings.BuildingController
 }
 
 func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
@@ -37,14 +37,16 @@ func (ctrl *RouteControllerList) RouteRegister(e *echo.Echo) {
 	e.PUT("complex/:id", ctrl.ComplexController.Update)
 	e.DELETE("complex/:id", ctrl.ComplexController.Delete)
 
-	e.POST("address", ctrl.AddressController.Add)
-	e.GET("addresses", ctrl.AddressController.GetAll)
-	e.PUT("address/:id", ctrl.AddressController.Update)
-	e.DELETE("address/:id", ctrl.AddressController.Delete)
-
 	e.POST("facility", ctrl.FacilityController.Add)
 	e.GET("facilities", ctrl.FacilityController.GetAll)
 	e.PUT("facility/:id", ctrl.FacilityController.Update)
 	e.DELETE("facility/:id", ctrl.FacilityController.Delete)
+
+	e.POST("building", ctrl.BuildingController.Add)
+	e.GET("buildings", ctrl.BuildingController.GetAll)
+	e.GET("building/:id", ctrl.BuildingController.GetByID)
+	e.GET("building/complex/:complexid", ctrl.BuildingController.GetByComplexID)
+	e.PUT("building/:id", ctrl.BuildingController.Update)
+	e.DELETE("building/:id", ctrl.BuildingController.Delete)
 
 }

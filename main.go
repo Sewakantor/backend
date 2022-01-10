@@ -15,13 +15,13 @@ import (
 	complexController "capstone/controllers/complexs"
 	complexRepo "capstone/driver/database/complexs"
 
-	addressUsecase "capstone/business/addresses"
-	addressController "capstone/controllers/addresses"
-	addressRepo "capstone/driver/database/addresses"
-
 	facilityUsecase "capstone/business/facilities"
 	facilityController "capstone/controllers/facilities"
 	facilityRepo "capstone/driver/database/facilities"
+
+	buildingUsecase "capstone/business/buildings"
+	buildingController "capstone/controllers/buildings"
+	buildingRepo "capstone/driver/database/buildings"
 
 	"capstone/driver/mysql"
 	"log"
@@ -47,8 +47,8 @@ func DBMigrate(DB *gorm.DB) {
 	DB.AutoMigrate(&userRepo.User{})
 	DB.AutoMigrate(&roleRepo.Role{})
 	DB.AutoMigrate(&complexRepo.Complex{})
-	DB.AutoMigrate(&addressRepo.Address{})
 	DB.AutoMigrate(&facilityRepo.Facility{})
+	DB.AutoMigrate(&buildingRepo.Building{})
 }
 
 func main() {
@@ -82,20 +82,21 @@ func main() {
 	complexuseCaseInterface := complexUsecase.NewComplexUseCase(complexRepoInterface, timeoutcontext)
 	complexControllerInterface := complexController.NewComplexController(complexuseCaseInterface)
 
-	addressRepoInterface := addressRepo.NewAddressRepository(DB)
-	addressUseCaseInterface := addressUsecase.NewAddressUseCase(addressRepoInterface, timeoutcontext)
-	addressControllerInterface := addressController.NewAddressController(addressUseCaseInterface)
-
 	facilityRepoInterface := facilityRepo.NewFacilityRepository(DB)
 	facilityUseCaseInterface := facilityUsecase.NewFacilityUseCase(facilityRepoInterface, timeoutcontext)
 	facilityContollerInterface := facilityController.NewFacilityController(facilityUseCaseInterface)
+
+	buildingRepoInterface := buildingRepo.NewBuildingRepository(DB)
+	buidingUseCaseInterface := buildingUsecase.NewBuildingUseCase(buildingRepoInterface, timeoutcontext)
+	buildingControllerInterface := buildingController.NewBuildingController(buidingUseCaseInterface)
+
 
 	routesInit := routes.RouteControllerList{
 		UserController: *userControllerInterface,
 		RoleController: *roleControllerInterface,
 		ComplexController: *complexControllerInterface,
-		AddressController: *addressControllerInterface,
 		FacilityController: *facilityContollerInterface,
+		BuildingController: *buildingControllerInterface,
 
 	}
 	routesInit.RouteRegister(e)
